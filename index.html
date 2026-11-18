@@ -232,9 +232,16 @@
       const SUPABASE_KEY = "sb_publishable_DG3q5tkj2FAgWybh4fkmAw_ilmsIIpE";
 
       const supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true
+    }
+  }
+);
 
       console.log("Home Gallery connected to Supabase!");
 
