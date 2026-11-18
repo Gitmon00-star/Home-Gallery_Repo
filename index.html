@@ -258,11 +258,11 @@
 
   const { data, error } = await supabaseClient.auth.signUp({
     email: email,
-    password: password,
-    options: {
-      data: { username: username }
-    }
-  });
+password: password,
+options: {
+  data: { username: username },
+  emailRedirectTo: "https://gitmon00-star.github.io/Home-Gallery_Repo/"
+}
 
   if (error) {
     message.textContent = error.message;
