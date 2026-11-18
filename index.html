@@ -178,6 +178,48 @@
         </div>
     </section>
 
+    <section id="account" style="padding: 50px 20px; text-align: center;">
+  <h2>Join Home Gallery</h2>
+  <p>Create an account to share your artwork!</p>
+
+  <div style="max-width: 350px; margin: auto;">
+    <input
+      id="username"
+      type="text"
+      placeholder="Choose a username"
+      style="width: 100%; padding: 12px; margin: 8px 0;"
+    >
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Your email"
+      style="width: 100%; padding: 12px; margin: 8px 0;"
+    >
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Create a password"
+      style="width: 100%; padding: 12px; margin: 8px 0;"
+    >
+
+    <button onclick="signUp()" style="padding: 12px 24px; margin: 8px;">
+      Create Account
+    </button>
+
+    <button onclick="logIn()" style="padding: 12px 24px; margin: 8px;">
+      Log In
+    </button>
+
+    <button onclick="logOut()" style="padding: 12px 24px; margin: 8px;">
+      Log Out
+    </button>
+
+    <p id="account-message"></p>
+  </div>
+</section>
+    
     <footer id="about">
         <p>Home Gallery © 2026</p>
         <p>A home for everyone's creativity.</p>
@@ -195,6 +237,58 @@
       );
 
       console.log("Home Gallery connected to Supabase!");
+
+    async function signUp() {
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("account-message");
+
+  if (!username || !email || !password) {
+    message.textContent = "Please fill in all three fields.";
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      data: { username: username }
+    }
+  });
+
+  if (error) {
+    message.textContent = error.message;
+  } else if (data.session) {
+    message.textContent = "Account created! Welcome to Home Gallery!";
+  } else {
+    message.textContent = "Account created! Check your email to confirm your account.";
+  }
+}
+
+async function logIn() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("account-message");
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  message.textContent = error
+    ? error.message
+    : "You're logged in!";
+}
+
+async function logOut() {
+  const { error } = await supabaseClient.auth.signOut();
+
+  document.getElementById("account-message").textContent = error
+    ? error.message
+    : "You've logged out!";
+}
+        
     </script>
 
 </body>
