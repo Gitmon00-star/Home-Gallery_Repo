@@ -278,14 +278,18 @@ async function logIn() {
   const password = document.getElementById("password").value;
   const message = document.getElementById("account-message");
 
-  const { error } = await supabaseClient.auth.signInWithPassword({
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
     email: email,
     password: password
   });
 
-  message.textContent = error
-    ? error.message
-    : "You're logged in!";
+  if (error) {
+    message.textContent = "Login error: " + error.message;
+    console.log(error);
+  } else {
+    message.textContent = "You're logged in! Welcome!";
+    console.log(data);
+  }
 }
 
 async function logOut() {
