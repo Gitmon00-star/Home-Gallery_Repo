@@ -183,5 +183,19 @@
         <p>A home for everyone's creativity.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+      const SUPABASE_URL = "https://gywznfknxeabbfldkmpd.supabase.co/rest/v1/";
+      const SUPABASE_KEY = "sb_publishable_DG3q5tkj2FAgWybh4fkmAw_ilmsIIpE";
+
+      const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+      console.log("Home Gallery connected to Supabase!");
+    </script>
+
 </body>
 </html>
